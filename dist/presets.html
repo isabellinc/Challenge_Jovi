@@ -9,6 +9,7 @@
 </head>
 <body class="bg-black text-white h-dvh w-screen flex flex-col p-6 overflow-hidden">
     
+    <!-- Header -->
     <header class="flex items-center justify-between w-full p-4">
         <a href="index.html" class="shrink-0">
             <img class="w-6 h-6 object-contain" src="./assets/presets/seta-esquerda.png" alt="seta para voltar">
@@ -19,28 +20,175 @@
         <div class="w-6 shrink-0"></div>
     </header>
 
-    <main class="flex-1 flex-col justify-center items-center p-5 ">
+    <!-- Subtítulo -->
+    <p class="text-[10px] text-zinc-400 text-center mb-4">
+        Use Presets Inteligentes para alcançar o tom perfeito em poucos toques
+    </p>
+
+    <!-- Lista de Presets -->
+    <main class="flex-1 flex flex-col items-center p-2 overflow-y-auto gap-4">
         
-       <div>
-            <img class="mb-4" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+        <!-- Preset 1: Candy / Detalhe -->
+        <div class="preset-card relative w-full max-w-[363px] h-[109px] flex items-center cursor-pointer group shrink-0 rounded-2xl border-2 border-transparent transition-all">
+            <img class="w-full h-full object-fill -z-10" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+            
+            <div class="absolute inset-0 flex items-center p-2.5 gap-3">
+                <div class="h-full aspect-[4/3] rounded-xl overflow-hidden shrink-0">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                         src="./assets/presets/candy.png" 
+                         alt="foto de várias balas">
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-white font-bold text-[16px] leading-tight">Detalhe</h2>
+                    <p class="text-zinc-400 text-[14px] leading-tight mt-0.5">
+                        Nitidez em detalhes<br>minuciosos.
+                    </p>
+                </div>
+
+                <div class="absolute right-3 inset-y-0 flex flex-col justify-between py-2.5 items-end">
+                    <div class="check-icon hidden w-5 h-5 rounded-full border border-amber-500 bg-amber-500/20 flex items-center justify-center text-amber-500 text-[10px]">
+                        ✓
+                    </div>
+                    <a href="ajustes.html" onclick="event.stopPropagation();" class="edit-btn hidden p-1 hover:opacity-80 transition-opacity">
+                        <img class="w-4 h-4 object-contain" src="./assets/presets/ajustes.png" alt="Ajustes">
+                    </a>
+                </div>
+            </div>
         </div>
-  
-       <div>
-            <img class="mb-4" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+
+        <!-- Preset 2: Car / Carro -->
+        <div class="preset-card relative w-full max-w-[363px] h-[109px] flex items-center cursor-pointer group shrink-0 rounded-2xl border-2 border-transparent transition-all">
+            <img class="w-full h-full object-fill -z-10" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+            
+            <div class="absolute inset-0 flex items-center p-2.5 gap-3">
+                <div class="h-full aspect-[4/3] rounded-xl overflow-hidden shrink-0">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                         src="./assets/presets/car.png" 
+                         alt="foto de carro">
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-white font-bold text-[16px] leading-tight">Carro</h2>
+                    <p class="text-zinc-400 text-[14px] leading-tight mt-0.5">
+                        Foco nítido e contraste<br>acentuado.
+                    </p>
+                </div>
+
+                <div class="absolute right-3 inset-y-0 flex flex-col justify-between py-2.5 items-end">
+                    <div class="check-icon hidden w-5 h-5 rounded-full border border-amber-500 bg-amber-500/20 flex items-center justify-center text-amber-500 text-[10px]">
+                        ✓
+                    </div>
+                    <a href="ajustes.html" onclick="event.stopPropagation();" class="edit-btn hidden p-1 hover:opacity-80 transition-opacity">
+                        <img class="w-4 h-4 object-contain" src="./assets/presets/ajustes.png" alt="Ajustes">
+                    </a>
+                </div>
+            </div>
         </div>
-        <div>
-            <img class="mb-4" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+
+        <!-- Preset 3: Girl / Retrato -->
+        <div class="preset-card relative w-full max-w-[363px] h-[109px] flex items-center cursor-pointer group shrink-0 rounded-2xl border-2 border-transparent transition-all">
+            <img class="w-full h-full object-fill -z-10" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+            
+            <div class="absolute inset-0 flex items-center p-2.5 gap-3">
+                <div class="h-full aspect-[4/3] rounded-xl overflow-hidden shrink-0">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                         src="./assets/presets/girl.png" 
+                         alt="foto de retrato">
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-white font-bold text-[16px] leading-tight">Retrato</h2>
+                    <p class="text-zinc-400 text-[14px] leading-tight mt-0.5">
+                        Tons de pele naturais<br>e desfoque suave.
+                    </p>
+                </div>
+
+                <div class="absolute right-3 inset-y-0 flex flex-col justify-between py-2.5 items-end">
+                    <div class="check-icon hidden w-5 h-5 rounded-full border border-amber-500 bg-amber-500/20 flex items-center justify-center text-amber-500 text-[10px]">
+                        ✓
+                    </div>
+                    <a href="ajustes.html" onclick="event.stopPropagation();" class="edit-btn hidden p-1 hover:opacity-80 transition-opacity">
+                        <img class="w-4 h-4 object-contain" src="./assets/presets/ajustes.png" alt="Ajustes">
+                    </a>
+                </div>
+            </div>
         </div>
-        <div>
-            <img class="mb-4" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+
+        <!-- Preset 4: Urban / Urbano -->
+        <div class="preset-card relative w-full max-w-[363px] h-[109px] flex items-center cursor-pointer group shrink-0 rounded-2xl border-2 border-transparent transition-all">
+            <img class="w-full h-full object-fill -z-10" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+            
+            <div class="absolute inset-0 flex items-center p-2.5 gap-3">
+                <div class="h-full aspect-[4/3] rounded-xl overflow-hidden shrink-0">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                         src="./assets/presets/urban.png" 
+                         alt="foto urbana">
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-white font-bold text-[16px] leading-tight">Urbano</h2>
+                    <p class="text-zinc-400 text-[14px] leading-tight mt-0.5">
+                        Contraste e nitidez<br>para cenas da cidade.
+                    </p>
+                </div>
+
+                <div class="absolute right-3 inset-y-0 flex flex-col justify-between py-2.5 items-end">
+                    <div class="check-icon hidden w-5 h-5 rounded-full border border-amber-500 bg-amber-500/20 flex items-center justify-center text-amber-500 text-[10px]">
+                        ✓
+                    </div>
+                    <a href="ajustes.html" onclick="event.stopPropagation();" class="edit-btn hidden p-1 hover:opacity-80 transition-opacity">
+                        <img class="w-4 h-4 object-contain" src="./assets/presets/ajustes.png" alt="Ajustes">
+                    </a>
+                </div>
+            </div>
         </div>
-        <div>
-            <img class="mb-4" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+
+        <!-- Preset 5: House / Paisagem -->
+        <div class="preset-card relative w-full max-w-[363px] h-[109px] flex items-center cursor-pointer group shrink-0 rounded-2xl border-2 border-transparent transition-all">
+            <img class="w-full h-full object-fill -z-10" src="./assets/presets/Rectangle.png" alt="retangulo cinza">
+            
+            <div class="absolute inset-0 flex items-center p-2.5 gap-3">
+                <div class="h-full aspect-[4/3] rounded-xl overflow-hidden shrink-0">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                         src="./assets/presets/house.png" 
+                         alt="foto de paisagem">
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-white font-bold text-[16px] leading-tight">Paisagem</h2>
+                    <p class="text-zinc-400 text-[14px] leading-tight mt-0.5">
+                        Cores vivas e equilíbrio<br>para natureza.
+                    </p>
+                </div>
+
+                <div class="absolute right-3 inset-y-0 flex flex-col justify-between py-2.5 items-end">
+                    <div class="check-icon hidden w-5 h-5 rounded-full border border-amber-500 bg-amber-500/20 flex items-center justify-center text-amber-500 text-[10px]">
+                        ✓
+                    </div>
+                    <a href="ajustes.html" onclick="event.stopPropagation();" class="edit-btn hidden p-1 hover:opacity-80 transition-opacity">
+                        <img class="w-4 h-4 object-contain" src="./assets/presets/ajustes.png" alt="Ajustes">
+                    </a>
+                </div>
+            </div>
         </div>
-        <div>
-            <img  src="./assets/presets/Rectangle.png" alt="retangulo com adicionar novo">
-        </div>
+
+        <a href="novo_preset.html" class="relative w-full max-w-[363px] h-[109px] flex items-center justify-center cursor-pointer group shrink-0">
+            <img class="w-full h-full object-fill" src="./assets/presets/Rectangle.png" alt="retangulo com adicionar novo">
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-1.5">
+                <img class="w-6 h-6 object-contain group-hover:scale-110 transition-transform duration-200" 
+                     src="./assets/presets/plus.png" 
+                     alt="Adicionar novo">
+
+                <p class="text-zinc-400 text-[14px] leading-tight font-medium">
+                    Adicionar novo
+                </p>
+            </div>
+        </a>
+
     </main>
 
+    
 </body>
 </html>

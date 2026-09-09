@@ -1,56 +1,27 @@
-function abrirModal(id) {
-    document.getElementById(id).classList.remove('hidden');
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.preset-card');
 
-function fecharModal(id) {
-    document.getElementById(id).classList.add('hidden');
-}
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Remove a seleção e oculta os ícones de todos os cartões
+            cards.forEach(c => {
+                c.classList.remove('border-amber-500/80', 'bg-amber-500/5');
+                c.classList.add('border-transparent');
+                
+                const check = c.querySelector('.check-icon');
+                const edit = c.querySelector('.edit-btn');
+                if (check) check.classList.add('hidden');
+                if (edit) edit.classList.add('hidden');
+            });
 
-let flashAtivo = false;
+            // Aplica o contorno dourado e exibe os ícones no cartão clicado
+            card.classList.remove('border-transparent');
+            card.classList.add('border-amber-500/80', 'bg-amber-500/5');
 
-function alternarFlash() {
-    flashAtivo = !flashAtivo;
-    const icone = document.getElementById('icone-flash');
-
-    icone.src = flashAtivo
-        ? './assets/camera/flash-on.png'
-        : './assets/camera/flash.png';
-}
-
-function tirarFoto() {
-    if (flashAtivo) {
-        const overlay = document.getElementById('flash-overlay');
-        overlay.classList.remove('hidden');
-
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-        }, 150);
-    }
-
-}
-
-function selecionarFiltro(botaoClicado) {
-    document.querySelectorAll('.filtro-btn img').forEach((img) => {
-        img.classList.remove('border-[#ec1163]');
-        img.classList.add('border-transparent');
+            const activeCheck = card.querySelector('.check-icon');
+            const activeEdit = card.querySelector('.edit-btn');
+            if (activeCheck) activeCheck.classList.remove('hidden');
+            if (activeEdit) activeEdit.classList.remove('hidden');
+        });
     });
-
-    const imagem = botaoClicado.querySelector('img');
-    imagem.classList.remove('border-transparent');
-    imagem.classList.add('border-[#ec1163]');
-}
-
-let tempoTimer = 0;
-
-function selecionarTimer(botaoClicado, segundos) {
-    tempoTimer = segundos;
-
-    document.querySelectorAll('.timer-btn').forEach((btn) => {
-        btn.classList.remove('bg-[#ec1163]');
-        btn.classList.add('bg-neutral-800');
-    });
-
-    // Destaca o botão clicado
-    botaoClicado.classList.remove('bg-neutral-800');
-    botaoClicado.classList.add('bg-[#ec1163]');
-}
+});

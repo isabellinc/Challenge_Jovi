@@ -7,61 +7,197 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/output.css">
-    
+
     <title>Jovi câmera</title>
 </head>
 
-<body class="bg-black text-white h-dvh w-screen overflow-hidden flex flex-col justify-between p-4">
+<body class="bg-zinc-950 min-h-dvh w-full flex items-center justify-center overflow-hidden">
 
-    <nav class="flex justify-between items-center w-full px-2 pt-5">
-    <div class="flex items-center gap-4">
-        <img class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/flash.png" alt="ícone do flash">
-        <img class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/filter.png" alt="ícone de filtro">
-        <img class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/clock.png" alt="ícone do temporizador">
-        
-        <a href="presets.html" class="flex items-center shrink-0 opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200">
-            <img class="w-6 h-6 object-contain" src="./assets/camera/presets.png" alt="ícone de presets">
-        </a>
+    <div id="app-frame" class="relative bg-black text-white w-full h-dvh sm:h-[860px] sm:max-h-[94vh] sm:w-[430px] sm:rounded-[2.5rem] sm:border sm:border-zinc-800 sm:shadow-2xl overflow-hidden flex flex-col justify-between p-4">
+
+        <nav class="flex justify-between items-center w-full px-2 pt-5">
+            <div class="flex items-center gap-4">
+                <img id="btn-flash" class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/flash.png" alt="ícone do flash">
+
+                <img id="btn-filter" class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/filter.png" alt="ícone de filtro">
+
+                <div class="relative">
+                    <img id="btn-timer" class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/clock.png" alt="ícone do temporizador">
+
+                    <span id="timer-badge" class="hidden absolute -top-2 -right-2 bg-yellow-400 text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
+
+                    <div id="timer-menu" class="hidden absolute top-9 left-0 bg-zinc-800/95 backdrop-blur rounded-lg py-1 flex flex-col z-50 text-xs min-w-[110px] shadow-lg">
+                        <button data-timer="0" class="timer-option px-3 py-2 hover:bg-zinc-700 text-left text-white">Desligado</button>
+                        <button data-timer="3" class="timer-option px-3 py-2 hover:bg-zinc-700 text-left text-white">3 segundos</button>
+                        <button data-timer="5" class="timer-option px-3 py-2 hover:bg-zinc-700 text-left text-white">5 segundos</button>
+                        <button data-timer="10" class="timer-option px-3 py-2 hover:bg-zinc-700 text-left text-white">10 segundos</button>
+                    </div>
+                </div>
+
+                <a href="presets.html" class="flex items-center shrink-0 opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200">
+                    <img class="w-6 h-6 object-contain" src="./assets/camera/presets.png" alt="ícone de presets">
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <img id="btn-settings" class="w-6 h-6 object-contain opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200" src="./assets/camera/settings.png" alt="ícone de configurações">
+            </div>
+        </nav>
+
+        <main class="flex-1 flex flex-col justify-center items-center relative min-h-0">
+
+            <div class="relative max-h-full max-w-full mt-6 sm:mt-10 shrink">
+                <img id="camera-preview" class="max-h-full max-w-full object-contain" src="./assets/camera/background_camera.png" alt="escada que vai direto ao mar">
+
+                <div id="grid-overlay" class="hidden absolute inset-0 pointer-events-none"></div>
+
+                <div id="countdown-overlay" class="hidden absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span id="countdown-number" class="text-white text-8xl font-bold drop-shadow-lg"></span>
+                </div>
+
+                <div id="capture-flash" class="hidden absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-150 ease-out"></div>
+            </div>
+
+            <div id="filters-strip" class="hidden overflow-x-auto flex gap-3 px-2 py-3 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <button data-filter="none" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-yellow-400">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:none">
+                    </div>
+                    <span class="text-[10px] text-white">Normal</span>
+                </button>
+                <button data-filter="grayscale(1)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:grayscale(1)">
+                    </div>
+                    <span class="text-[10px] text-white">P&amp;B</span>
+                </button>
+                <button data-filter="saturate(1.6) contrast(1.1)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:saturate(1.6) contrast(1.1)">
+                    </div>
+                    <span class="text-[10px] text-white">Vívido</span>
+                </button>
+                <button data-filter="sepia(0.45) contrast(0.9) brightness(1.05)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:sepia(0.45) contrast(0.9) brightness(1.05)">
+                    </div>
+                    <span class="text-[10px] text-white">Vintage</span>
+                </button>
+                <button data-filter="brightness(1.05) saturate(1.1) hue-rotate(180deg)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:brightness(1.05) saturate(1.1) hue-rotate(180deg)">
+                    </div>
+                    <span class="text-[10px] text-white">Frio</span>
+                </button>
+                <button data-filter="sepia(0.25) saturate(1.3) brightness(1.05)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:sepia(0.25) saturate(1.3) brightness(1.05)">
+                    </div>
+                    <span class="text-[10px] text-white">Quente</span>
+                </button>
+                <button data-filter="contrast(1.35) brightness(0.9) saturate(0.75)" class="filter-option flex flex-col items-center gap-1 shrink-0">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden border-2 border-transparent">
+                        <img src="./assets/camera/background_camera.png" class="w-full h-full object-cover" style="filter:contrast(1.35) brightness(0.9) saturate(0.75)">
+                    </div>
+                    <span class="text-[10px] text-white">Dramático</span>
+                </button>
+            </div>
+
+            <div id="aspect-row" class="flex justify-center items-center gap-2 my-2 text-[10px] font-semibold text-white pt-3 select-none">
+                <span class="aspect-option bg-zinc-800 px-2 py-1 rounded-md opacity-60 hover:opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200" data-aspect="1:1">1:1</span>
+                <span class="aspect-option bg-zinc-800 px-2 py-1 rounded-md opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200" data-aspect="4:3">4:3</span>
+                <span class="aspect-option bg-zinc-800 px-2 py-1 rounded-md opacity-60 hover:opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200" data-aspect="16:9">16:9</span>
+            </div>
+
+            <div class="grid grid-cols-5 items-center w-full text-center text-[10px] sm:text-xs text-white mt-6 sm:mt-10">
+                <p class="mode-option opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all" data-mode="Noturno">Noturno</p>
+                <p class="mode-option opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all" data-mode="Retrato">Retrato</p>
+                <p class="mode-option opacity-100 text-yellow-400 cursor-pointer transition-all" data-mode="Foto">Foto</p>
+                <p class="mode-option opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all" data-mode="Video">Vídeo</p>
+                <p class="mode-option opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all" data-mode="UltraHD">Ultra HD</p>
+            </div>
+        </main>
+
+        <footer class="grid grid-cols-3 items-center w-full pb-6 pt-2">
+
+            <div class="justify-self-start pl-2">
+                <img id="thumbnail" class="w-12 h-12 object-cover rounded-lg cursor-pointer" src="./assets/camera/mini_background_camera.png" alt="miniatura">
+            </div>
+
+            <div class="justify-self-center">
+                <img id="capture-btn" class="w-16 h-16 object-contain cursor-pointer" src="./assets/camera/camera_button.png" alt="botão disparador da câmera">
+            </div>
+
+            <div class="justify-self-end pr-2">
+                <img id="flip-btn" class="w-10 h-10 object-contain cursor-pointer" src="./assets/camera/return_button.png" alt="botão de retornar">
+            </div>
+
+        </footer>
+
+        <!-- Painel de configurações (absoluto dentro do frame, não da tela inteira) -->
+        <div id="settings-overlay" class="hidden absolute inset-0 bg-black/60 z-40"></div>
+
+        <div id="settings-panel" class="hidden absolute bottom-0 left-0 w-full bg-zinc-900 rounded-t-2xl sm:rounded-b-[2.5rem] p-5 z-50 max-h-[75%] overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-white">Configurações</h2>
+                <button id="close-settings" class="text-zinc-400 text-xl leading-none">&times;</button>
+            </div>
+
+            <div class="flex flex-col divide-y divide-zinc-800">
+                <label class="flex items-center justify-between py-3 cursor-pointer">
+                    <span class="text-sm text-white">Grade (linhas-guia)</span>
+                    <span class="relative inline-flex items-center">
+                        <input type="checkbox" id="setting-grid" class="sr-only peer">
+                        <span class="w-10 h-[22px] bg-zinc-700 rounded-full peer-checked:bg-yellow-500 transition-colors duration-200"></span>
+                        <span class="absolute left-[2px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-[18px]"></span>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between py-3 cursor-pointer">
+                    <span class="text-sm text-white">HDR automático</span>
+                    <span class="relative inline-flex items-center">
+                        <input type="checkbox" id="setting-hdr" class="sr-only peer">
+                        <span class="w-10 h-[22px] bg-zinc-700 rounded-full peer-checked:bg-yellow-500 transition-colors duration-200"></span>
+                        <span class="absolute left-[2px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-[18px]"></span>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between py-3 cursor-pointer">
+                    <span class="text-sm text-white">Marca d'água de localização</span>
+                    <span class="relative inline-flex items-center">
+                        <input type="checkbox" id="setting-location" class="sr-only peer">
+                        <span class="w-10 h-[22px] bg-zinc-700 rounded-full peer-checked:bg-yellow-500 transition-colors duration-200"></span>
+                        <span class="absolute left-[2px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-[18px]"></span>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between py-3 cursor-pointer">
+                    <span class="text-sm text-white">Espelhar foto frontal</span>
+                    <span class="relative inline-flex items-center">
+                        <input type="checkbox" id="setting-mirror" class="sr-only peer">
+                        <span class="w-10 h-[22px] bg-zinc-700 rounded-full peer-checked:bg-yellow-500 transition-colors duration-200"></span>
+                        <span class="absolute left-[2px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-[18px]"></span>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between py-3 cursor-pointer">
+                    <span class="text-sm text-white">Som do obturador</span>
+                    <span class="relative inline-flex items-center">
+                        <input type="checkbox" id="setting-sound" class="sr-only peer" checked>
+                        <span class="w-10 h-[22px] bg-zinc-700 rounded-full peer-checked:bg-yellow-500 transition-colors duration-200"></span>
+                        <span class="absolute left-[2px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-[18px]"></span>
+                    </span>
+                </label>
+
+                <div class="py-3">
+                    <span class="text-sm text-white block mb-2">Resolução</span>
+                    <div class="flex gap-2">
+                        <button data-res="12MP" class="res-option px-3 py-1.5 rounded-md bg-yellow-500 text-black text-xs">12MP</button>
+                        <button data-res="48MP" class="res-option px-3 py-1.5 rounded-md bg-zinc-800 text-white text-xs">48MP</button>
+                        <button data-res="108MP" class="res-option px-3 py-1.5 rounded-md bg-zinc-800 text-white text-xs">108MP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="flex items-center gap-4 opacity-80 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-200">
-        <img class="w-6 h-6 object-contain" src="./assets/camera/settings.png" alt="ícone de configurações">
-    </div>
-</nav>
-
-    <main class="flex-1 justify-center items-center ">
-        
-    
-        <img class="max-h-full max-w-full object-contain mt-10" src="./assets/camera/background_camera.png" alt="escada que vai direto ao mar">
-      <div class="flex justify-center items-center gap-2 my-2 text-[10px] font-semibold text-white pt-3 select-none">
-        <span class="bg-zinc-800 px-2 py-1 rounded-md opacity-60 hover:opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200">1:1</span>
-        <span class="bg-zinc-800 px-2 py-1 rounded-md opacity-60 hover:opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200">4:3</span>
-        <span class="bg-zinc-800 px-2 py-1 rounded-md opacity-60 hover:opacity-100 hover:bg-zinc-700 cursor-pointer transition-all duration-200">16:9</span>
-</div>
-        <div class="grid grid-cols-5 items-center w-full text-center text-xs text-white mt-10">
-            <p class="opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all">Noturno</p>
-            <p class="opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all">Retrato</p>
-            <p class="opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all">Foto</p>
-            <p class="opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all">Vídeo</p>
-            <p class="opacity-60 hover:opacity-100 hover:text-yellow-400 cursor-pointer transition-all">Ultra HD</p>
-     
-    </main>
-
-    <footer class="grid grid-cols-3 items-center w-full pb-6 pt-2">
-
-        <div class="justify-self-start pl-2">
-            <img class="w-12 h-12 object-cover rounded-lg" src="./assets/camera/mini_background_camera.png" alt="miniatura">
-        </div>
-
-        <div class="justify-self-center">
-            <img class="w-16 h-16 object-contain cursor-pointer" src="./assets/camera/camera_button.png" alt="botão disparador da câmera">
-        </div>
-
-        <div class="justify-self-end pr-2">
-            <img class="w-10 h-10 object-contain cursor-pointer" src="./assets/camera/return_button.png" alt="botão de retornar">
-        </div>
-
-    </footer>
-
+    <script src="./js/script.js"></script>
 </body>
 </html>

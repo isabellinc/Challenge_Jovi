@@ -8,270 +8,293 @@
     <title>Ajustes de Preset - JOVI Smartshot</title>
 </head>
 
-<body class="bg-zinc-950 text-white min-h-screen flex justify-center items-center p-2 sm:p-6 font-sans">
+        <style>
+            /* ==== Slider (range) customizado ==== */
+            input[type="range"] {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                height: 4px;
+                border-radius: 9999px;
+                background: #3f3f46; /* zinc-700 */
+                outline: none;
+            }
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 16px;
+                height: 16px;
+                border-radius: 9999px;
+                background: #f59e0b; /* amber-500 */
+                cursor: pointer;
+                box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+            }
+            input[type="range"]::-moz-range-thumb {
+                width: 16px;
+                height: 16px;
+                border: none;
+                border-radius: 9999px;
+                background: #f59e0b;
+                cursor: pointer;
+                box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+            }
+            input[type="range"]::-moz-range-track {
+                height: 4px;
+                border-radius: 9999px;
+                background: #3f3f46;
+            }
 
-    <!-- Moldura Mobile do Smartphone com scroll interno -->
-    <main class="w-full max-w-md h-[844px] bg-black rounded-3xl border border-zinc-800 p-4 shadow-2xl flex flex-col gap-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-        
-        <!-- CABEÇALHO -->
-        <header class="flex items-center justify-between pt-1 px-1 shrink-0">
-            <a href="presets.html" class="text-zinc-400 hover:text-white transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M21 7.875H5.02688L12.3638 1.58625L10.5 0L0 9L10.5 18L12.3506 16.4137L5.02688 10.125H21V7.875Z" fill="white"/>
-                </svg>
+            /* ==== Toast ==== */
+            #toast {
+                transition: opacity .25s ease, transform .25s ease;
+            }
+        </style>
+</head>
+<body class="bg-zinc-950 min-h-dvh w-full flex items-center justify-center overflow-hidden font-sans">
+<div id="app-frame" class="relative bg-black text-white w-full h-dvh sm:h-[860px] sm:max-h-[94vh] sm:w-[430px] sm:rounded-[2.5rem] sm:border sm:border-zinc-800 sm:shadow-2xl overflow-hidden flex flex-col p-6">
+
+    <!-- ==================================================================== -->
+    <!-- VIEW A — Ajustes do preset (nome, categoria, descrição, visibilidade) -->
+    <!-- ==================================================================== -->
+    <div id="view-settings" class="flex flex-col h-full w-full overflow-hidden">
+
+        <header class="flex items-center justify-between w-full p-4 shrink-0">
+            <a href="presets.html" class="shrink-0" aria-label="Voltar">
+                <img class="w-6 h-6 object-contain" src="./assets/presets/seta-esquerda.png" alt="seta para voltar">
             </a>
-            
-            <h1 class="text-sm font-semibold tracking-widest uppercase">AJUSTES</h1>
-            
-            <button id="btn-salvar" class="text-white hover:text-amber-500 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M7.63636 15.8209L1.90909 9.55224L0 11.6418L7.63636 20L24 2.08955L22.0909 0L7.63636 15.8209Z" fill="white"/>
+            <h1 class="text-2xl text-center flex-1 font-normal">AJUSTES</h1>
+            <button id="btn-save-settings" class="w-6 h-6 shrink-0 flex items-center justify-center" aria-label="Salvar preset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M20 6 9 17l-5-5"/>
                 </svg>
             </button>
         </header>
 
-        <!-- ÁREA DE PREVIEW (ANTES / DEPOIS) -->
-        <section class="relative rounded-2xl overflow-hidden bg-zinc-900 aspect-square border border-zinc-800 shrink-0">
-            <button id="btn-comparar" class="absolute top-3 right-3 bg-zinc-800/80 backdrop-blur text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 text-zinc-300 hover:bg-zinc-700 transition z-10">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M6.22222 19C6.00185 19 5.81726 18.9171 5.66844 18.7513C5.51911 18.586 5.44444 18.3811 5.44444 18.1364V17.2727H1.55556C1.12778 17.2727 0.761444 17.1037 0.456555 16.7658C0.152185 16.4272 0 16.0205 0 15.5455V3.45455C0 2.97955 0.152185 2.57277 0.456555 2.23423C0.761444 1.89626 1.12778 1.72727 1.55556 1.72727H5.44444V0.863636C5.44444 0.618939 5.51911 0.413682 5.66844 0.247864C5.81726 0.0826212 6.00185 0 6.22222 0C6.44259 0 6.62744 0.0826212 6.77678 0.247864C6.92559 0.413682 7 0.618939 7 0.863636V18.1364C7 18.3811 6.92559 18.586 6.77678 18.7513C6.62744 18.9171 6.44259 19 6.22222 19ZM1.55556 14.6818H5.44444V9.5L1.55556 14.6818ZM8.55556 17.2727V9.5L12.4444 14.6818V3.45455H8.55556V1.72727H12.4444C12.8722 1.72727 13.2386 1.89626 13.5434 2.23423C13.8478 2.57277 14 2.97955 14 3.45455V15.5455C14 16.0205 13.8478 16.4272 13.5434 16.7658C13.2386 17.1037 12.8722 17.2727 12.4444 17.2727H8.55556Z" fill="white"/>
-                </svg>
-                Comparar
-            </button>
+        <main class="flex-1 overflow-y-auto flex flex-col gap-5 px-2 pb-4">
 
-        <div class="relative w-full h-full">
-                <img src="assets/ajustes/bolinhas-de-gude.jpg" id="img-preview" alt="Preview do Preset" class="w-full h-full object-cover">
-                <span class="absolute top-2 left-3 text-[10px] uppercase bg-black/60 px-2 py-0.5 rounded text-zinc-300">Antes</span>
-                <span class="absolute top-2 right-3 text-[10px] uppercase bg-black/60 px-2 py-0.5 rounded text-zinc-300">Depois</span>
-                <div class="absolute inset-y-0 left-1/2 w-0.5 bg-white/80 flex items-center justify-center">
-                    <div class="w-6 h-6 bg-white rounded-full text-black text-xs flex items-center justify-center shadow font-bold">⇆</div>
-                </div>
+            <!-- Imagem do preset + Comparar -->
+            <div class="relative w-full h-48 rounded-2xl overflow-hidden shrink-0">
+                <img class="w-full h-full object-cover" src="./assets/ajustes/bolinhas-de-gude.jpg" alt="foto de várias balas">
+                <button id="btn-open-adjust" class="absolute top-3 right-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium hover:bg-black/75 transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+                        <path d="M8 7 4 11l4 4M4 11h16M16 7l4 4-4 4M20 11H4"/>
+                    </svg>
+                    Comparar
+                </button>
             </div>
-        </section>
 
-        <!-- PARTE 1: FORMULÁRIO DE METADADOS (TELA 1 DO FIGMA) -->
-        <section class="space-y-3 shrink-0 text-xs">
             <!-- Nome do preset -->
-            <div class="space-y-1">
-                <label class="text-zinc-300 font-medium">Nome do preset</label>
-                <input type="text" value="Detalhe" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-zinc-600">
+            <div>
+                <label for="input-nome" class="text-sm text-zinc-300 mb-1.5 block">Nome do preset</label>
+                <input id="input-nome" type="text" value="Detalhe"
+                       class="w-full bg-zinc-800 rounded-xl px-4 py-3 text-sm text-white outline-none focus:ring-2 focus:ring-amber-500 transition-shadow">
             </div>
 
             <!-- Categoria -->
-            <div class="space-y-1.5">
-                <label class="text-zinc-300 font-medium">Categoria</label>
-                <div class="grid grid-cols-5 gap-1.5">
-                    <button type="button" class="flex flex-col items-center justify-center gap-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 py-2 rounded-xl text-[10px] text-zinc-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M4.33333 17.5V18.1562C4.33333 18.6771 4.1287 19.1146 3.71944 19.4688C3.31018 19.8229 2.79259 20 2.16667 20C1.56481 20 1.05348 19.8175 0.632667 19.4525C0.210889 19.0883 0 18.6458 0 18.125V8.75L3.03333 1.25C3.17778 0.875 3.43681 0.572917 3.81044 0.34375C4.18311 0.114583 4.59815 0 5.05556 0H20.9444C21.4019 0 21.8174 0.114583 22.191 0.34375C22.5637 0.572917 22.8222 0.875 22.9667 1.25L26 8.75V18.1562C26 18.6771 25.7954 19.1146 25.3861 19.4688C24.9769 19.8229 24.4593 20 23.8333 20C23.2315 20 22.7201 19.8175 22.2993 19.4525C21.8776 19.0883 21.6667 18.6458 21.6667 18.125V17.5H4.33333ZM4.04444 6.25H21.9556L20.4389 2.5H5.56111L4.04444 6.25ZM6.5 13.75C7.10185 13.75 7.61319 13.5675 8.034 13.2025C8.45578 12.8383 8.66667 12.3958 8.66667 11.875C8.66667 11.3542 8.45578 10.9117 8.034 10.5475C7.61319 10.1825 7.10185 10 6.5 10C5.89815 10 5.38682 10.1825 4.966 10.5475C4.54422 10.9117 4.33333 11.3542 4.33333 11.875C4.33333 12.3958 4.54422 12.8383 4.966 13.2025C5.38682 13.5675 5.89815 13.75 6.5 13.75ZM19.5 13.75C20.1019 13.75 20.6132 13.5675 21.034 13.2025C21.4558 12.8383 21.6667 12.3958 21.6667 11.875C21.6667 11.3542 21.4558 10.9117 21.034 10.5475C20.6132 10.1825 20.1019 10 19.5 10C18.8981 10 18.3868 10.1825 17.966 10.5475C17.5442 10.9117 17.3333 11.3542 17.3333 11.875C17.3333 12.3958 17.5442 12.8383 17.966 13.2025C18.3868 13.5675 18.8981 13.75 19.5 13.75Z" fill="white"/>    
+            <div>
+                <label class="text-sm text-zinc-300 mb-2 block">Categoria</label>
+                <div id="category-group" class="grid grid-cols-5 gap-2">
+                    <button type="button" data-category="carro" class="category-btn flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-zinc-800 border-2 border-transparent transition-colors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13M3 13v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5M3 13h18"/>
+                            <circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/>
                         </svg>
-                        Carro
+                        <span class="text-[11px] text-zinc-300">Carro</span>
                     </button>
-                    <button type="button" class="flex flex-col items-center justify-center gap-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 py-2 rounded-xl text-[10px] text-zinc-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    <button type="button" data-category="retrato" class="category-btn flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-zinc-800 border-2 border-transparent transition-colors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <circle cx="12" cy="8" r="3.2"/>
+                            <path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>
                         </svg>
-                        Retrato
+                        <span class="text-[11px] text-zinc-300">Retrato</span>
                     </button>
-                    <button type="button" class="flex flex-col items-center justify-center gap-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 py-2 rounded-xl text-[10px] text-zinc-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    <button type="button" data-category="urbano" class="category-btn flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-zinc-800 border-2 border-transparent transition-colors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="M4 21V9l5-3v15M9 21V6l6 3v12M15 21V9l5 3v9M4 21h16"/>
                         </svg>
-                        Urbano
+                        <span class="text-[11px] text-zinc-300">Urbano</span>
                     </button>
-                    <button type="button" class="flex flex-col items-center justify-center gap-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 py-2 rounded-xl text-[10px] text-zinc-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    <button type="button" data-category="noturno" class="category-btn flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-zinc-800 border-2 border-transparent transition-colors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>
                         </svg>
-                        Noturno
+                        <span class="text-[11px] text-zinc-300">Noturno</span>
                     </button>
-                    <button type="button" class="flex flex-col items-center justify-center gap-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 py-2 rounded-xl text-[10px] text-zinc-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+                    <button type="button" data-category="filme" class="category-btn flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-zinc-800 border-2 border-transparent transition-colors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+                            <path d="M3 9h4M3 15h4M17 9h4M17 15h4"/>
                         </svg>
-                        Filme
+                        <span class="text-[11px] text-zinc-300">Filme</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Descrição (opcional) -->
-            <div class="space-y-1">
-                <label class="text-zinc-300 font-medium">Descrição (opcional)</label>
-                <input type="text" value="Nitidez em detalhes minunciosos" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-400 focus:outline-none focus:border-zinc-600">
+            <!-- Descrição -->
+            <div>
+                <label for="input-descricao" class="text-sm text-zinc-300 mb-1.5 block">Descrição (opcional)</label>
+                <input id="input-descricao" type="text" value="Nitidez em detalhes minuciosos."
+                       class="w-full bg-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300 outline-none focus:ring-2 focus:ring-amber-500 transition-shadow">
             </div>
 
-            <!-- Imagem de Capa -->
-            <div class="space-y-1">
-                <label class="text-zinc-300 font-medium">Imagem de capa</label>
-                <div class="flex gap-2">
-                    <img src="assets/ajustes/bolinhas-de-gude.jpg" class="w-14 h-14 rounded-xl object-cover border border-zinc-700">
-                    <button type="button" class="w-14 h-14 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-xl flex items-center justify-center text-xl text-zinc-400 transition">
-                        +
-                    </button>
+            <!-- Imagem de capa -->
+            <div>
+                <label class="text-sm text-zinc-300 mb-2 block">Imagem de capa</label>
+                <div class="flex gap-3">
+                    <div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                        <img id="preview-capa" class="w-full h-full object-cover" src="./assets/ajustes/bolinhas-de-gude.jpg" alt="imagem de capa atual">
+                    </div>
+                    <label class="w-16 h-16 rounded-xl bg-zinc-800 flex items-center justify-center cursor-pointer hover:bg-zinc-700 transition-colors shrink-0">
+                        <img class="w-5 h-5 object-contain" src="./assets/presets/plus.png" alt="Adicionar nova imagem de capa">
+                        <input id="input-capa" type="file" accept="image/*" class="hidden">
+                    </label>
                 </div>
             </div>
 
             <!-- Visibilidade -->
-            <div class="space-y-1 pb-2">
-                <label class="text-zinc-300 font-medium">Visibilidade</label>
-                <button type="button" class="w-full flex items-center justify-between bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-300">
-                    <span class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+            <div>
+                <label class="text-sm text-zinc-300 mb-1.5 block">Visibilidade</label>
+                <div class="relative">
+                    <button id="btn-visibilidade" type="button"
+                            class="w-full flex items-center justify-between bg-zinc-800 rounded-xl px-4 py-3 text-sm text-white hover:bg-zinc-700 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-4 h-4">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+                            </svg>
+                            <span id="visibilidade-label">Público</span>
+                        </span>
+                        <svg id="visibilidade-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform">
+                            <path d="m6 9 6 6 6-6"/>
                         </svg>
-                        Público
-                    </span>
-                    <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="visibilidade-menu" class="hidden absolute left-0 right-0 mt-1.5 bg-zinc-800 rounded-xl overflow-hidden z-10 shadow-lg">
+                        <button type="button" data-visibilidade="Público" class="visibilidade-opt w-full text-left px-4 py-3 text-sm hover:bg-zinc-700 transition-colors">Público</button>
+                        <button type="button" data-visibilidade="Privado" class="visibilidade-opt w-full text-left px-4 py-3 text-sm hover:bg-zinc-700 transition-colors">Privado</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- VIEW B — Editor de ajustes (Luz / Cor / Efeito / Detalhe / Ótica)      -->
+    <!-- ==================================================================== -->
+    <div id="view-adjust" class="hidden flex-col h-full w-full overflow-hidden">
+
+        <header class="flex items-center justify-between w-full p-4 shrink-0">
+            <button id="btn-back-adjust" class="w-6 h-6 shrink-0" aria-label="Voltar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="m15 18-6-6 6-6"/>
+                </svg>
+            </button>
+            <h1 class="text-2xl text-center flex-1 font-normal">AJUSTES</h1>
+            <button id="btn-save-adjust" class="w-6 h-6 shrink-0 flex items-center justify-center" aria-label="Salvar ajustes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+            </button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto flex flex-col gap-4 px-2 pb-2">
+
+            <!-- Comparador antes/depois -->
+            <div id="compare" class="relative w-full h-48 rounded-2xl overflow-hidden select-none shrink-0 cursor-ew-resize">
+                <img class="absolute inset-0 w-full h-full object-cover" src="./assets/ajustes/bolinhas-de-gude.jpg" alt="antes">
+                <img id="compare-after" class="absolute inset-0 w-full h-full object-cover" src="./assets/ajustes/bolinhas-de-gude.jpg" alt="depois"
+                     style="clip-path: inset(0 0 0 50%); filter: contrast(1.18) saturate(1.25) brightness(1.04);">
+
+                <span class="absolute top-2.5 left-2.5 text-[10px] font-medium bg-black/55 px-2 py-1 rounded-full">Antes</span>
+                <span class="absolute top-2.5 right-2.5 text-[10px] font-medium bg-black/55 px-2 py-1 rounded-full">Depois</span>
+
+                <div id="compare-line" class="absolute inset-y-0 w-0.5 bg-white/90" style="left:50%;"></div>
+                <div id="compare-handle" class="absolute top-1/2 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 shadow" style="left:50%;">
+                    <svg viewBox="0 0 24 24" fill="#111" class="w-3.5 h-3.5 ml-0.5">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Abas de categorias de ajuste -->
+            <div id="tabs" class="grid grid-cols-5 gap-1.5 shrink-0">
+                <button type="button" data-tab="luz" class="tab-btn flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+                    </svg>
+                    <span class="text-[11px]">Luz</span>
+                </button>
+                <button type="button" data-tab="cor" class="tab-btn flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <path d="M12 21a9 9 0 1 1 0-18c4.5 0 8 3 8 6.5 0 2-1.5 3.5-3.5 3.5H15a1.8 1.8 0 0 0-1 3.3c.4.3.6.7.6 1.2 0 1-1 1.7-2 1.7Z"/>
+                        <circle cx="7.5" cy="10.5" r=".9" fill="currentColor" stroke="none"/>
+                        <circle cx="12" cy="7.5" r=".9" fill="currentColor" stroke="none"/>
+                        <circle cx="16.2" cy="10.2" r=".9" fill="currentColor" stroke="none"/>
+                    </svg>
+                    <span class="text-[11px]">Cor</span>
+                </button>
+                <button type="button" data-tab="efeito" class="tab-btn flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span class="text-[11px]">Efeito</span>
+                </button>
+                <button type="button" data-tab="detalhe" class="tab-btn flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <path d="M4 6h16M4 12h10M4 18h13"/>
+                        <circle cx="19" cy="18" r="1.3" fill="currentColor" stroke="none"/>
+                    </svg>
+                    <span class="text-[11px]">Detalhe</span>
+                </button>
+                <button type="button" data-tab="otica" class="tab-btn flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" class="w-5 h-5">
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 3v3.5M12 17.5V21M3 12h3.5M17.5 12H21"/>
+                    </svg>
+                    <span class="text-[11px]">Ótica</span>
                 </button>
             </div>
-        </section>
 
-        <!-- PARTE 2: ABAS DE FERRAMENTAS (TELA 2 DO FIGMA) -->
-        <nav class="grid grid-cols-5 gap-1 bg-zinc-900/80 p-1.5 rounded-2xl border border-zinc-800 text-center text-xs shrink-0">
-            <button class="flex flex-col items-center gap-1 py-2 rounded-xl bg-zinc-800 text-amber-500 font-medium shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            <!-- Sliders (renderizados via JS conforme a aba ativa) -->
+            <div id="sliders-container" class="flex flex-col divide-y divide-zinc-800"></div>
+
+        </main>
+
+        <!-- Ações -->
+        <footer class="grid grid-cols-3 gap-2 pt-3 px-2 shrink-0 border-t border-zinc-800">
+            <button id="btn-reset" type="button" class="flex flex-col items-center gap-1 py-2 text-zinc-300 hover:text-white transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <path d="M3 12a9 9 0 1 0 3-6.7"/>
+                    <path d="M3 4v5h5"/>
                 </svg>
-                Luz
+                <span class="text-[11px]">Redefinir</span>
             </button>
-            <button class="flex flex-col items-center gap-1 py-2 rounded-xl text-zinc-400 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+            <button id="btn-historico" type="button" class="flex flex-col items-center gap-1 py-2 text-zinc-300 hover:text-white transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3.5 2"/>
                 </svg>
-                Cor
+                <span class="text-[11px]">Histórico</span>
             </button>
-            <button class="flex flex-col items-center gap-1 py-2 rounded-xl text-zinc-400 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+            <button id="btn-copiar" type="button" class="flex flex-col items-center gap-1 py-2 text-zinc-300 hover:text-white transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <rect x="9" y="9" width="11" height="11" rx="1.5"/>
+                    <path d="M5 15V5a1 1 0 0 1 1-1h10"/>
                 </svg>
-                Efeito
-            </button>
-            <button class="flex flex-col items-center gap-1 py-2 rounded-xl text-zinc-400 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4l8 14H4L12 4z"/>
-                </svg>
-                Detalhe
-            </button>
-            <button class="flex flex-col items-center gap-1 py-2 rounded-xl text-zinc-400 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="5" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="1" stroke-width="2"/>
-                </svg>
-                Ótica
-            </button>
-        </nav>
-
-        <!-- PARTE 3: CONTROLES DESLIZANTES + BALÃO DE DICA (TELAS 2 E 3 DO FIGMA) -->
-        <section class="space-y-4 px-1 py-1 relative shrink-0">
-            
-            <!-- EXPOSIÇÃO COM BALÃO DE DICA (TELA 3) -->
-            <div class="space-y-1 relative">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">
-                        Exposição
-                        <button id="btn-info-exposicao" type="button" class="text-amber-500 hover:text-amber-400 transition">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <!-- PATH ÍCONE INFO (i) -->
-                                <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"/>
-                            </svg>
-                        </button>
-                    </span>
-                    <span id="val-exposicao" class="text-zinc-400 font-mono">+0,35</span>
-                </div>
-                <input type="range" min="-100" max="100" value="35" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-
-                <!-- BALÃO DE DICA DA TELA 3 (Remova ou adicione a classe 'hidden' via JS) -->
-                <div id="tooltip-exposicao" class="hidden absolute left-0 top-6 z-20 w-full bg-zinc-800 border border-zinc-700 p-3 rounded-2xl shadow-xl text-xs text-zinc-200">
-                    <p class="leading-relaxed">
-                        Ajusta o brilho geral. Aumente para clarear ambientes escuros ou diminua para evitar que fotos no sol fiquem brancas demais.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Contraste -->
-            <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">
-                        Contraste
-                        <button type="button" class="text-amber-500/80 hover:text-amber-400 transition">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- PATH INFO --></svg>
-                        </button>
-                    </span>
-                    <span id="val-contraste" class="text-zinc-400 font-mono">+20</span>
-                </div>
-                <input type="range" min="-100" max="100" value="20" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-            <!-- Realces -->
-            <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">
-                        Realces
-                        <button type="button" class="text-amber-500/80 hover:text-amber-400 transition">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- PATH INFO --></svg>
-                        </button>
-                    </span>
-                    <span id="val-realces" class="text-zinc-400 font-mono">-30</span>
-                </div>
-                <input type="range" min="-100" max="100" value="-30" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-            <!-- Sombras -->
-            <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">Sombras</span>
-                    <span id="val-sombras" class="text-zinc-400 font-mono">+20</span>
-                </div>
-                <input type="range" min="-100" max="100" value="20" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-            <!-- Brancos -->
-            <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">Brancos</span>
-                    <span id="val-brancos" class="text-zinc-400 font-mono">+10</span>
-                </div>
-                <input type="range" min="-100" max="100" value="10" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-            <!-- Pretos -->
-            <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs text-zinc-300">
-                    <span class="flex items-center gap-1.5 font-medium">Pretos</span>
-                    <span id="val-pretos" class="text-zinc-400 font-mono">-15</span>
-                </div>
-                <input type="range" min="-100" max="100" value="-15" class="w-full accent-amber-500 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-        </section>
-
-        <!-- RODAPÉ DE AÇÕES -->
-        <footer class="grid grid-cols-3 gap-2 pt-2 border-t border-zinc-800/80 text-center text-xs text-zinc-400 shrink-0 mt-auto">
-            <button class="flex flex-col items-center gap-1 py-1 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                </svg>
-                Redefinir
-            </button>
-            <button class="flex flex-col items-center gap-1 py-1 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Histórico
-            </button>
-            <button class="flex flex-col items-center gap-1 py-1 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                </svg>
-                Copiar ajustes
+                <span class="text-[11px]">Copiar ajustes</span>
             </button>
         </footer>
+    </div>
 
-    </main>
-    <!-- Scripts da aplicação -->
-    <script src="js/ajustes.js"></script>
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-lg z-50 opacity-0">
+    </div>
 
+    <script src="./js/ajustes.js"></script>
+
+</div>
 </body>
 </html>
